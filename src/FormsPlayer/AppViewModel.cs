@@ -29,7 +29,7 @@ namespace Xamarin.Forms.Player
 			DisconnectCommand = new Command (Disconnect);
 
 			try {
-				sessionId = CrossSettings.Current.GetValueOrDefault<string> ("SessionId");
+				sessionId = CrossSettings.Current.GetValueOrDefault<string> ("SessionId", "k8mcdd");
 			} catch { }
 		}
 
