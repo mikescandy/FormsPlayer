@@ -21,8 +21,10 @@ namespace Xamarin.Forms.Player
 		string json;
 		string jsonFileName;
         string sessionId;
+        string url;
+        string port;
 
-		HubConnection connection;
+        HubConnection connection;
 
 		public AppViewModel ()
 		{
@@ -31,9 +33,12 @@ namespace Xamarin.Forms.Player
 
 			try
 			{
-			    sessionId = "k8mcdd"; //CrossSettings.Current.GetValueOrDefault<string> ("SessionId", "k8mcdd");
-			    //SessionId = "k8mcdd"; //CrossSettings.Current.GetValueOrDefault<string> ("SessionId", "k8mcdd");
-            } catch { }
+			    //sessionId = "k8mcdd"; //CrossSettings.Current.GetValueOrDefault<string> ("SessionId", "k8mcdd");
+			    //SessionId = CrossSettings.Current.GetValueOrDefault<string> ("SessionId", string.Empty);
+			    SessionId = "k8mcdd";
+			    Port = "8080";
+			    Url = "http://";
+			} catch { }
 		}
 
 		public bool IsConnected
@@ -61,8 +66,12 @@ namespace Xamarin.Forms.Player
         public ICommand ConnectCommand { get; private set; }
 
 		public ICommand DisconnectCommand { get; private set; }
+        public string SignalrHub => $"{Url}:{Port}";
+        public string Url { get { return url; } set { SetProperty(ref url, value, "Url"); } }
 
-		public void Start ()
+        public string Port { get { return port; } set { SetProperty(ref port, value, "Port"); } }
+
+        public void Start ()
 		{
 			// We don't do anything special on start (yet?)
 		}
@@ -85,7 +94,7 @@ namespace Xamarin.Forms.Player
 		void Connect ()
 		{
 			IsConnected = false;
-			connection = new HubConnection (ThisAssembly.HubUrl);
+			connection = new HubConnection (SignalrHub);
 			var proxy = connection.CreateHubProxy("FormsPlayer");
 
 			proxy.On<string> ("Xaml", xaml => Xaml = xaml);

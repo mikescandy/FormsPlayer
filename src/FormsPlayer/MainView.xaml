@@ -28,7 +28,9 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -40,7 +42,26 @@
 							Android="26" />
 			</Label.FontSize>
 		</Label>
-		<Entry Grid.Row="1" Placeholder="Session ID" Text="{Binding SessionId}" IsEnabled="{Binding IsDisconnected}"
+
+    <Entry Grid.Row="1" Placeholder="Url" Text="{Binding Url}" IsEnabled="{Binding IsDisconnected}"
+			   HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black">
+      <Entry.Triggers>
+        <Trigger TargetType="Entry" Property="IsEnabled" Value="False">
+          <Setter Property="TextColor" Value="Gray" />
+        </Trigger>
+      </Entry.Triggers>
+    </Entry>
+
+    <Entry Grid.Row="2" Placeholder="Port" Text="{Binding Port}" IsEnabled="{Binding IsDisconnected}"
+			   HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black">
+      <Entry.Triggers>
+        <Trigger TargetType="Entry" Property="IsEnabled" Value="False">
+          <Setter Property="TextColor" Value="Gray" />
+        </Trigger>
+      </Entry.Triggers>
+    </Entry>
+    
+		<Entry Grid.Row="3" Placeholder="Session ID" Text="{Binding SessionId}" IsEnabled="{Binding IsDisconnected}"
 			   HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black">
 			<Entry.Triggers>
 				<Trigger TargetType="Entry" Property="IsEnabled" Value="False">
@@ -48,10 +69,10 @@
 				</Trigger>
 			</Entry.Triggers>
 		</Entry>
-		<Button Grid.Row="1" Grid.Column="1" Text="Connect" Command="{Binding ConnectCommand}" IsVisible="{Binding IsDisconnected}" />
-		<Button Grid.Row="1" Grid.Column="1" Text="Disconnect" Command="{Binding DisconnectCommand}" IsVisible="{Binding IsConnected}" />
-		<Label Grid.Row="2" FontAttributes="Bold" Text="What?" />
-		<StackLayout Grid.Row="3" Grid.ColumnSpan="2" VerticalOptions="Start">
+		<Button Grid.Row="3" Grid.Column="1" Text="Connect" Command="{Binding ConnectCommand}" IsVisible="{Binding IsDisconnected}" />
+		<Button Grid.Row="3" Grid.Column="1" Text="Disconnect" Command="{Binding DisconnectCommand}" IsVisible="{Binding IsConnected}" />
+		<Label Grid.Row="4" FontAttributes="Bold" Text="What?" />
+		<StackLayout Grid.Row="5" Grid.ColumnSpan="2" VerticalOptions="Start">
 			<Label Text="This application works together with the Xamarin Forms Player extension for Visual Studio." />
 			<Label Text="You can open Visual Studio companion extension from the View | Other Windows | Xamarin Forms Player menu option." />
 			<Label Text="Once the Visual Studio extension is connected, take note of the Session ID displayed and enter it in the input box above to connect to it." />

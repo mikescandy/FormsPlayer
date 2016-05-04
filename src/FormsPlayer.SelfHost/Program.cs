@@ -11,11 +11,14 @@ namespace SignalRSelfHost
     {
         static void Main(string[] args)
         {
+            var port = "8080";
+            if (args == null)
+                port = args[0];
             // This will *ONLY* bind to localhost, if you want to bind to all addresses
             // use http://*:8080 to bind to all addresses. 
             // See http://msdn.microsoft.com/en-us/library/system.net.httplistener.aspx 
             // for more information.
-            var url = "http://*:8080";
+            var url = $"http://*:{port}";
             using (WebApp.Start(url))
             {
                 Console.WriteLine("Server running on {0}", url);

@@ -2,7 +2,7 @@
 <package >
 	<metadata>
 		<id>Xamarin.Forms.Player</id>
-		<version>0.1.8-pre</version>
+		<version>0.2.0</version>
 		<authors>Daniel Cazzulino</authors>
 		<owners>Daniel Cazzulino</owners>
 		<licenseUrl>http://www.mobileessentials.org/license</licenseUrl>
@@ -12,17 +12,17 @@
 		<description>Preview Xamarin.Forms XAML on devices and simulators, with support for data-binding via JSON dummy view models.</description>
 		<copyright />
 		<dependencies>
-			<dependency id="Microsoft.AspNet.SignalR.Client" version="2.2.0"  />
+			<dependency id="Microsoft.AspNet.SignalR.Client" version="2.1.2"  />
 			<dependency id="Microsoft.Net.Http" version="2.2.28" />
-			<dependency id="Newtonsoft.Json" version="6.0.8" />
-			<dependency id="Xamarin.Forms" version="1.4.3.6358-pre2" />
-			<dependency id="Xamarin.Forms.Dynamic" version="0.1.13-pre" />
+			<dependency id="Newtonsoft.Json" version="8.0.3" />
+			<dependency id="Xamarin.Forms" version="2.2.0.31" />
+			<dependency id="Xamarin.Forms.Dynamic" version="0.1.2" />
 			<dependency id="Xam.Plugins.Settings" version="1.5.1" />
 		</dependencies>
 	</metadata>
 	<files>
 		<!--PCL-->
-		<file src="FormsPlayer\bin\$Configuration$\Xamarin.Forms.Player.dll" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
-		<file src="FormsPlayer\bin\$Configuration$\Xamarin.Forms.Player.xml" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+		<file src="FormsPlayer\bin\Release\Xamarin.Forms.Player.dll" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
+		<file src="FormsPlayer\bin\Release\Xamarin.Forms.Player.xml" target="lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10" />
 	</files>
 </package>

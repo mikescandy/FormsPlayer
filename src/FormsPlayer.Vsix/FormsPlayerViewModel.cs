@@ -40,7 +40,9 @@ namespace Xamarin.Forms.Player
 		bool isConnecting;
 		string status;
 		string sessionId;
-		int clients;
+		string url;
+		string port;
+        int clients;
 		WritableSettingsStore settings;
 
 		[ImportingConstructor]
@@ -58,7 +60,7 @@ namespace Xamarin.Forms.Player
 			if (settings.PropertyExists(SettingsPath, SettingsKey))
 				SessionId = settings.GetString(SettingsPath, SettingsKey, "");
 
-			if (string.IsNullOrEmpty(SessionId))
+			if (string.IsNullOrEmpty(SessionId))    
 			{
 				// Initialize SessionId from MAC address.
 				var mac = NetworkInterface.GetAllNetworkInterfaces()
@@ -84,9 +86,15 @@ namespace Xamarin.Forms.Player
 
 		public string SessionId { get { return sessionId; } set { SetProperty(ref sessionId, value, "SessionId"); } }
 
-		public string Status { get { return status; } set { SetProperty(ref status, value, "Status"); } }
+		public string Url { get { return url; } set { SetProperty(ref url, value, "Url"); } }
 
-		void Publish(string fileName)
+        public string Port { get { return port; } set { SetProperty(ref port, value, "Port"); } }
+
+        public string Status { get { return status; } set { SetProperty(ref status, value, "Status"); } }
+
+        public string SignalrHub => $"{Url}:{Port}";
+
+	    void Publish(string fileName)
 		{
 			if (!IsConnected)
 			{
@@ -167,7 +175,7 @@ namespace Xamarin.Forms.Player
 
 			System.Threading.Tasks.Task.Run(() =>
 			{
-				connection = new HubConnection(ThisAssembly.HubUrl);
+				connection = new HubConnection(SignalrHub);
 				proxy = connection.CreateHubProxy("FormsPlayer");
 
 				try

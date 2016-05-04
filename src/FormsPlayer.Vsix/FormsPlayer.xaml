@@ -21,8 +21,12 @@
 				<RowDefinition />
 			</Grid.RowDefinitions>
 			<StackPanel Orientation="Vertical" Grid.Row="0">
-				<TextBlock HorizontalAlignment="Center" Margin="10">Session ID:</TextBlock>
-				<TextBox HorizontalAlignment="Center" TextAlignment="Center" MinWidth="120" FontSize="22" FontWeight="Bold" Text="{Binding SessionId, Mode=TwoWay, FallbackValue='SessionID'}" />
+                <TextBlock HorizontalAlignment="Center" Margin="10">URL</TextBlock>
+                <TextBox HorizontalAlignment="Center" TextAlignment="Center" MinWidth="120" FontSize="22" FontWeight="Bold" Text="{Binding Url, Mode=TwoWay, FallbackValue='http://localhost'}" Margin="10,0,10,0" Width="260" />
+                <TextBlock HorizontalAlignment="Center" Margin="10">Port</TextBlock>
+                <TextBox HorizontalAlignment="Center" TextAlignment="Center" MinWidth="120" FontSize="22" FontWeight="Bold" Text="{Binding Port, Mode=TwoWay, FallbackValue='8080'}" />
+                <TextBlock HorizontalAlignment="Center" Margin="10">Session ID:</TextBlock>
+                <TextBox HorizontalAlignment="Center" TextAlignment="Center" MinWidth="120" FontSize="22" FontWeight="Bold" Text="{Binding SessionId, Mode=TwoWay, FallbackValue='SessionID'}" />
 				<Label HorizontalAlignment="Center" ContentStringFormat="{}({0:N0} connected clients)" Content="{Binding Clients, FallbackValue='5'}" />
 			</StackPanel>
 			<StackPanel Grid.Row="1" Margin="10" Orientation="Horizontal" Height="45" HorizontalAlignment="Center">
