@@ -20,8 +20,9 @@ namespace Xamarin.Forms.Player
 		/// <summary>
 		/// Initializes the application.
 		/// </summary>
-		public App ()
+		public App (Xamarin.Forms.Application app)
 		{
+		    this.Resources = app.Resources;
 			viewModel = new AppViewModel ();
 			viewModel.PropertyChanged += OnPropertyChanged;
 
@@ -75,7 +76,7 @@ namespace Xamarin.Forms.Player
 						}
 
 						if (!string.IsNullOrEmpty (viewModel.Json))
-							content.BindingContext = JsonModel.Parse (viewModel.Json);
+							content.BindingContext = JsonModel.Parse (viewModel.JsonFileName, viewModel.Json);
 
 						SetPage(content);
 					} 

@@ -19,7 +19,8 @@ namespace Xamarin.Forms.Player
 		string status;
 		string xaml;
 		string json;
-		string sessionId;
+		string jsonFileName;
+        string sessionId;
 
 		HubConnection connection;
 
@@ -28,9 +29,11 @@ namespace Xamarin.Forms.Player
 			ConnectCommand = new Command (Connect);
 			DisconnectCommand = new Command (Disconnect);
 
-			try {
-				sessionId = CrossSettings.Current.GetValueOrDefault<string> ("SessionId", "k8mcdd");
-			} catch { }
+			try
+			{
+			    sessionId = "k8mcdd"; //CrossSettings.Current.GetValueOrDefault<string> ("SessionId", "k8mcdd");
+			    //SessionId = "k8mcdd"; //CrossSettings.Current.GetValueOrDefault<string> ("SessionId", "k8mcdd");
+            } catch { }
 		}
 
 		public bool IsConnected
@@ -53,7 +56,9 @@ namespace Xamarin.Forms.Player
 
 		public string Json { get { return json; } set { SetProperty (ref json, value, "Json"); } }
 
-		public ICommand ConnectCommand { get; private set; }
+		public string JsonFileName { get { return jsonFileName; } set { SetProperty (ref jsonFileName, value, "JsonFileName"); } }
+
+        public ICommand ConnectCommand { get; private set; }
 
 		public ICommand DisconnectCommand { get; private set; }
 
@@ -84,7 +89,7 @@ namespace Xamarin.Forms.Player
 			var proxy = connection.CreateHubProxy("FormsPlayer");
 
 			proxy.On<string> ("Xaml", xaml => Xaml = xaml);
-			proxy.On<string> ("Json", json => Json = json);
+			proxy.On<string[]> ("Json", json => { Json = json[1]; JsonFileName=json[0]; });
 
 			try {
 				connection.Start ().Wait (3000);
@@ -114,8 +119,8 @@ namespace Xamarin.Forms.Player
 			if (!Object.Equals (field, value)) {
 				field = value;
 				PropertyChanged (this, new PropertyChangedEventArgs (name));
-				if (name == "SessionId")
-					CrossSettings.Current.AddOrUpdateValue (name, value);
+			    //if (name == "SessionId")
+			       // sessionId = (T)value;//CrossSettings.Current.AddOrUpdateValue (name, value);
 			}
 		}
 	}
