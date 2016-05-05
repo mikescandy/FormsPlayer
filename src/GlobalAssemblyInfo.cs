@@ -18,19 +18,19 @@ using Xamarin.Forms.Player;
 [assembly: AssemblyConfiguration("RELEASE")]
 #endif
 
-[assembly: AssemblyVersion(ThisAssembly.Version)]
-[assembly: AssemblyFileVersion(ThisAssembly.FileVersion)]
-[assembly: AssemblyInformationalVersion(ThisAssembly.InformationalVersion)]
+//[assembly: AssemblyVersion(ThisAssembly.Version)]
+//[assembly: AssemblyFileVersion(ThisAssembly.FileVersion)]
+//[assembly: AssemblyInformationalVersion(ThisAssembly.InformationalVersion)]
 
 
-namespace Xamarin.Forms.Player
-{
-	partial class ThisAssembly
-	{
-		public const string Version = ThisAssembly.Git.BaseVersion.Major + "." + ThisAssembly.Git.BaseVersion.Minor + "." +  ThisAssembly.Git.BaseVersion.Patch + "." + ThisAssembly.Git.Commits;
-		public const string FileVersion = Version;
-		public const string InformationalVersion = Version + "-" + ThisAssembly.Git.Branch + "+" + ThisAssembly.Git.Commit;
+//namespace Xamarin.Forms.Player
+//{
+//	partial class ThisAssembly
+//	{
+//		public const string Version = ThisAssembly.Git.BaseVersion.Major + "." + ThisAssembly.Git.BaseVersion.Minor + "." +  ThisAssembly.Git.BaseVersion.Patch + "." + ThisAssembly.Git.Commits;
+//		public const string FileVersion = Version;
+//		public const string InformationalVersion = Version + "-" + ThisAssembly.Git.Branch + "+" + ThisAssembly.Git.Commit;
 
-		public const string HubUrl = "http://192.168.130.31:8080";
-	}
-}
+//		public const string HubUrl = "http://192.168.130.31:8080";
+//	}
+//}

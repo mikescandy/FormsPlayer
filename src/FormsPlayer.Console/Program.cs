@@ -22,7 +22,7 @@ namespace Xamarin.Forms.Player
 
 		static async Task Startup ()
 		{
-			var connection = new HubConnection(ThisAssembly.HubUrl);
+			var connection = new HubConnection("");
 			var proxy = connection.CreateHubProxy("FormsPlayer");
 
 			proxy.On<string> ("Xaml", xaml => tracer.TraceInformation (@"Received XAML: 

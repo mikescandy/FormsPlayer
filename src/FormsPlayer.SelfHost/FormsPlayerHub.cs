@@ -27,6 +27,7 @@ namespace Xamarin.Forms.Player
 
 		public async Task Join (string sessionId)
 		{
+		    Console.WriteLine(Context.ConnectionId);
 			// One XF player client can only be connected to one group at a time.
 			clientSessionMap.AddOrUpdate (Context.ConnectionId, _ => sessionId, (_, __) => sessionId);
 

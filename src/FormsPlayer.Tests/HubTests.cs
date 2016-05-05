@@ -36,10 +36,10 @@ namespace FormsPlayer.Tests
 			var sessionId = Guid.NewGuid().ToString();
 			var clients = 0;
 
-			var pubConn = new HubConnection(ThisAssembly.HubUrl);
+			var pubConn = new HubConnection("");
 			var pubProxy = pubConn.CreateHubProxy("FormsPlayer");
 
-			var subConn = new HubConnection(ThisAssembly.HubUrl);
+			var subConn = new HubConnection("");
 			var subProxy = subConn.CreateHubProxy("FormsPlayer");
 
 			var xamls = new List<string>();
