@@ -16,7 +16,7 @@
 			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
-
+<ScrollView>
 	<Grid Padding="30, 40, 30, 10" RowSpacing="20">
 		<Grid.Padding>
 			<OnPlatform x:TypeArguments="Thickness"
@@ -79,4 +79,5 @@
             <Label Text="{Binding Status}" />
         </StackLayout>
 	</Grid>
+</ScrollView>
 </ContentPage>

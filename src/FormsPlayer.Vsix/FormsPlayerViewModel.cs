@@ -52,8 +52,8 @@ namespace Xamarin.Forms.Player
 			DisconnectCommand = new DelegateCommand(Disconnect, () => isConnected);
 			events = services.GetService<DTE>().Events.DocumentEvents;
 			events.DocumentSaved += document => Publish(document.FullName);
-
-			var manager = new ShellSettingsManager(services);
+            events.DocumentOpened += document => Publish(document.FullName);
+            var manager = new ShellSettingsManager(services);
 			settings = manager.GetWritableSettingsStore(SettingsScope.UserSettings);
 			if (!settings.CollectionExists(SettingsPath))
 				settings.CreateCollection(SettingsPath);

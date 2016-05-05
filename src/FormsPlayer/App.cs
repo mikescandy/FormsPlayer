@@ -25,11 +25,17 @@ namespace Xamarin.Forms.Player
 		    this.Resources = app.Resources;
 			viewModel = new AppViewModel ();
 			viewModel.PropertyChanged += OnPropertyChanged;
-
-			SetPage(new MainView { BindingContext = viewModel });
+            SetPage(new MainView { BindingContext = viewModel });
 		}
 
-		void OnPropertyChanged (object sender, PropertyChangedEventArgs e)
+        public App()
+        {
+            viewModel = new AppViewModel();
+            viewModel.PropertyChanged += OnPropertyChanged;
+            SetPage(new MainView { BindingContext = viewModel });
+        }
+
+        void OnPropertyChanged (object sender, PropertyChangedEventArgs e)
 		{
 			// NOTE: we re-read both XAML and JSON because just re-applying 
 			// the JSON to the BindingContext didn't work reliably.
