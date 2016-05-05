@@ -154,7 +154,7 @@ namespace Xamarin.Forms.Player
 				var json = JObject.Parse(File.ReadAllText(fileName));
 				tracer.Info("!Publishing JSON payload");
 
-				proxy.Invoke("Json", System.IO.Path.GetFileName(fileName), SessionId, json.ToString(Newtonsoft.Json.Formatting.None))
+				proxy.Invoke("Json", SessionId, Path.GetFileName(fileName), json.ToString(Newtonsoft.Json.Formatting.None))
 					.ContinueWith(t =>
 					   tracer.Error(t.Exception.InnerException, "Failed to publish JSON payload."),
 						CancellationToken.None,

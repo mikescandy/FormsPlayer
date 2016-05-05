@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
@@ -14,12 +15,14 @@ namespace Xamarin.Forms.Player
 
 		public void Xaml (string sessionId, string payload)
 		{
+		    Console.WriteLine(payload);
 			Clients.Group (sessionId).Xaml (payload);
 		}
 
-		public void Json (string sessionId, string payload)
+		public void Json (string sessionId, string fileName, string payload)
 		{
-			Clients.Group (sessionId).Json (payload);
+		    Console.WriteLine(payload);
+            Clients.Group (sessionId).Json (new[] {fileName, payload});
 		}
 
 		public async Task Join (string sessionId)
