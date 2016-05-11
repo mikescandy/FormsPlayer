@@ -14,7 +14,7 @@ namespace Xamarin.Forms.Player
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
-			LoadApplication(new Xamarin.Forms.Player.App());
+			LoadApplication(new Xamarin.Forms.Player.App(null));
 		}
 	}
 }

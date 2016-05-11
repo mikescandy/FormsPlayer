@@ -35,6 +35,7 @@
 			</StackPanel>
 			<StackPanel Orientation="Vertical" Grid.Row="2">
 				<TextBlock Margin="10" TextWrapping="Wrap">To push XAML or JSON to the connected devices, just open the document and save it.</TextBlock>
+                <TextBlock Margin="10" TextWrapping="Wrap" Text="{Binding Log}"/>
 			</StackPanel>
 		</Grid>
         <FormsPlayer:LoadingSpinner VerticalAlignment="Center" Visibility="{Binding IsConnecting, Converter={StaticResource boolToVis}}"/>

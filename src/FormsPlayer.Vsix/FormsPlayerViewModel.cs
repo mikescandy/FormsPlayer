@@ -1,5 +1,4 @@
 ﻿using EnvDTE;
-using Microsoft.AspNet.SignalR.Client;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
@@ -17,6 +16,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
+using Microsoft.VisualStudio.PlatformUI;
+using WebSocketSharp;
 using Xamarin.Forms.Player.Diagnostics;
 
 namespace Xamarin.Forms.Player
@@ -32,9 +33,8 @@ namespace Xamarin.Forms.Player
 
 		public event PropertyChangedEventHandler PropertyChanged = (sender, args) => { };
 
-		HubConnection connection;
-		IHubProxy proxy;
-		IDisposable onConnected;
+		
+		
 		DocumentEvents events;
 		bool isConnected;
 		bool isConnecting;
@@ -44,8 +44,9 @@ namespace Xamarin.Forms.Player
 		string port;
         int clients;
 		WritableSettingsStore settings;
+	    private WebSocket connection;
 
-		[ImportingConstructor]
+        [ImportingConstructor]
 		public FormsPlayerViewModel([Import(typeof(SVsServiceProvider))] IServiceProvider services)
 		{
 			ConnectCommand = new DelegateCommand(Connect, () => !isConnected);
@@ -74,6 +75,7 @@ namespace Xamarin.Forms.Player
 			TaskScheduler.UnobservedTaskException += OnTaskException;
 		}
 
+	    private string log;
 		public ICommand ConnectCommand { get; private set; }
 
 		public ICommand DisconnectCommand { get; private set; }
@@ -81,8 +83,9 @@ namespace Xamarin.Forms.Player
 		public int Clients { get { return clients; } set { SetProperty(ref clients, value, "Clients"); } }
 
 		public bool IsConnected { get { return isConnected; } set { SetProperty(ref isConnected, value, "IsConnected"); } }
+		public string Log { get { return log; } set { SetProperty(ref log, value, "Log"); } }
 
-		public bool IsConnecting { get { return isConnecting; } }
+        public bool IsConnecting { get { return isConnecting; } }
 
 		public string SessionId { get { return sessionId; } set { SetProperty(ref sessionId, value, "SessionId"); } }
 
@@ -92,7 +95,7 @@ namespace Xamarin.Forms.Player
 
         public string Status { get { return status; } set { SetProperty(ref status, value, "Status"); } }
 
-        public string SignalrHub => $"{Url}:{Port}";
+        public string SignalrHub => $"ws://{Url}:{Port}/FormsPeek/{SessionId}";
 
 	    void Publish(string fileName)
 		{
@@ -131,13 +134,13 @@ namespace Xamarin.Forms.Player
 
 					var xml = xdoc.ToString(SaveOptions.DisableFormatting);
 					tracer.Info("!Publishing XAML payload");
-
-					proxy.Invoke("Xaml", SessionId, xml)
-						.ContinueWith(t =>
-						   tracer.Error(t.Exception.InnerException, "Failed to publish XAML payload."),
-							CancellationToken.None,
-							TaskContinuationOptions.OnlyOnFaulted,
-							TaskScheduler.Default);
+                    connection.Send(xml);
+					//proxy.Invoke("Xaml", SessionId, xml)
+					//	.ContinueWith(t =>
+					//	   tracer.Error(t.Exception.InnerException, "Failed to publish XAML payload."),
+					//		CancellationToken.None,
+					//		TaskContinuationOptions.OnlyOnFaulted,
+					//		TaskScheduler.Default);
 				}
 			}
 			catch (XmlException)
@@ -153,13 +156,13 @@ namespace Xamarin.Forms.Player
 			{
 				var json = JObject.Parse(File.ReadAllText(fileName));
 				tracer.Info("!Publishing JSON payload");
-
-				proxy.Invoke("Json", SessionId, Path.GetFileName(fileName), json.ToString(Newtonsoft.Json.Formatting.None))
-					.ContinueWith(t =>
-					   tracer.Error(t.Exception.InnerException, "Failed to publish JSON payload."),
-						CancellationToken.None,
-						TaskContinuationOptions.OnlyOnFaulted,
-						TaskScheduler.Default);
+                connection.Send(json.ToString(Newtonsoft.Json.Formatting.None));
+				//proxy.Invoke("Json", SessionId, Path.GetFileName(fileName), json.ToString(Newtonsoft.Json.Formatting.None))
+				//	.ContinueWith(t =>
+				//	   tracer.Error(t.Exception.InnerException, "Failed to publish JSON payload."),
+				//		CancellationToken.None,
+				//		TaskContinuationOptions.OnlyOnFaulted,
+				//		TaskScheduler.Default);
 
 			}
 			catch (JsonException)
@@ -175,23 +178,32 @@ namespace Xamarin.Forms.Player
 
 			System.Threading.Tasks.Task.Run(() =>
 			{
-				connection = new HubConnection(SignalrHub);
-				proxy = connection.CreateHubProxy("FormsPlayer");
+            //connection = new HubConnection(SignalrHub);
+            //proxy = connection.CreateHubProxy("FormsPlayer");
+            //connection.Open(SignalrHub);
+			    Log += SignalrHub;
+			    Log += "\r\n";
+			    connection = new WebSocket(SignalrHub);
+                connection.Connect();
 
-				try
-				{
-					onConnected = proxy.On<int>("Connected", count => Clients = count - 1);
-					connection.Start().Wait(3000);
-					proxy.Invoke("Join", SessionId);
+                try
+                {
+					//onConnected = proxy.On<int>("Connected", count => Clients = count - 1);
+					//connection.Start().Wait(3000);
+					//proxy.Invoke("Join", SessionId);
 					IsConnected = true;
 					Status = "Successfully connected to FormsPlayer";
-				}
-				catch (Exception e)
+                    Log += Status;
+			    Log += "\r\n";
+                }
+                catch (Exception e)
 				{
 					Status = "Error connecting to FormsPlayer: " + e.Message;
-					connection.Dispose();
-				}
-				finally
+                    Log += Status;
+                    Log += "\r\n";
+                    //connection.Dispose();
+                }
+                finally
 				{
 					SetProperty(ref isConnecting, false, "IsConnecting");
 				}
@@ -200,11 +212,11 @@ namespace Xamarin.Forms.Player
 
 		void Disconnect()
 		{
-			onConnected.Dispose();
-			connection.Stop();
-			connection.Dispose();
-			connection = null;
-			proxy = null;
+			//onConnected.Dispose();
+			//connection.Stop();
+			//connection.Dispose();
+			//connection = null;
+			//proxy = null;
 			IsConnected = false;
 		}
 

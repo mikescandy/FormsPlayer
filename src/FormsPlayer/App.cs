@@ -22,8 +22,11 @@ namespace Xamarin.Forms.Player
 		/// </summary>
 		public App (Xamarin.Forms.Application app)
 		{
-		    this.Resources = app.Resources;
-			viewModel = new AppViewModel ();
+		   // this.Resources = app.Resources;
+            var currentdomain = typeof(string).GetTypeInfo().Assembly.GetType("System.AppDomain").GetRuntimeProperty("CurrentDomain").GetMethod.Invoke(null, new object[] { });
+            var getassemblies = currentdomain.GetType().GetRuntimeMethod("GetAssemblies", new Type[] { });
+            var assemblies = getassemblies.Invoke(currentdomain, new object[] { }) as Assembly[];
+            viewModel = new AppViewModel ();
 			viewModel.PropertyChanged += OnPropertyChanged;
             SetPage(new MainView { BindingContext = viewModel });
 		}

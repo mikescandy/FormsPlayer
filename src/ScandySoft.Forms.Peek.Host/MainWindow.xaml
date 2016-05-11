@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScandySoft.Forms.Peek.Host"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525"
+        Title="MainWindow" Height="370.875" Width="525"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
 >
     <Grid>
         <Label x:Name="label" Content="Port" HorizontalAlignment="Left" Margin="12,10,0,0" VerticalAlignment="Top" Width="64"/>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="89,12,0,0" TextWrapping="Wrap" Text="{Binding Port}" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="label1" Content="Session ID&#xD;&#xA;" HorizontalAlignment="Left" Margin="12,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.772,-1.578" Height="25"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="89,43,0,0" TextWrapping="Wrap" Text="ksm88cd" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.318,-0.107"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="245,41,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="269" Width="262"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="89,43,0,0" TextWrapping="Wrap" Text="ksm88cd" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.318,-0.107" />
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="245,41,0,0" TextWrapping="Wrap" Text="{Binding Log}" VerticalAlignment="Top" Height="269" Width="262"/>
         <Label x:Name="label2" Content="Log" HorizontalAlignment="Left" Margin="357,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.47,-0.153"/>
         <Label x:Name="label3" Content="Clients&#xD;&#xA;" HorizontalAlignment="Left" Margin="12,71,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.349,-0.111" Width="64" Height="26"/>
         <ListView x:Name="listView" HorizontalAlignment="Left" Height="197" Margin="89,71,0,0" VerticalAlignment="Top" Width="120">
@@ -23,6 +23,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="12,273,0,0" VerticalAlignment="Top" Width="197" Height="29"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="12,273,0,0" VerticalAlignment="Top" Width="197" Height="29" Command="{Binding StartCommand}"/>
+        <Button x:Name="button_Copy" Content="Send" HorizontalAlignment="Left" Margin="12,307,0,0" VerticalAlignment="Top" Width="197" Height="29" Command="{Binding SendCommand}"/>
     </Grid>
 </Window>
