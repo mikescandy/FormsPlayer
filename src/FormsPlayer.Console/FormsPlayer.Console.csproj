@@ -59,6 +59,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScandySoft.Forms.Peek.Core\ScandySoft.Forms.Peek.Core.csproj">
+      <Project>{5e92a09b-b607-459c-9dc5-a0c2d01fb083}</Project>
+      <Name>ScandySoft.Forms.Peek.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\Xamarin.Forms.Player.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

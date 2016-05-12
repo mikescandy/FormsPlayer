@@ -1,9 +1,15 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
+using System.Windows;
+using System.Windows.Documents;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Newtonsoft.Json;
 using PropertyChanged;
+using ScandySoft.Forms.Peek.Core;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
@@ -21,10 +27,12 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
 
         public RelayCommand StartCommand { get; set; }
         public RelayCommand SendCommand { get; set; }
+        public ObservableCollection<Client> Clients { get; set; }
         private static WebSocket connection;
 
         public MainViewModel()
         {
+            Clients=new ObservableCollection<Client>();
             SessionId = "ksm88cd";
             Port = "8924";
             StartCommand = new RelayCommand(() =>
@@ -90,7 +98,7 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
         private string _prefix;
         private string _name;
         private static int _number = 0;
-        private ConcurrentBag<string> Ids = new ConcurrentBag<string>();
+        private Client client;
 
 
 
@@ -101,14 +109,23 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
 
         public FormsPeek(string prefix)
         {
-            _prefix = !prefix.IsNullOrEmpty() ? prefix : "anon#";
+            _prefix = !prefix.IsNullOrEmpty() ? prefix : "client#";
         }
 
 
         protected override void OnMessage(MessageEventArgs e)
         {
             Singleton.Instance.vm.Log += $"{e.Data} \r\n";
-             Sessions.Broadcast("suca");
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+
+            var data = JsonConvert.DeserializeObject(e.Data, settings);
+            if (data is Client)
+            {
+                client = data as Client;
+                client.Id = _name;
+                Application.Current.Dispatcher.Invoke(new Action(() => { Singleton.Instance.vm.Clients.Add(client); }));
+              
+            }
             //foreach (var id in Ids)
             //{
             //    Sessions.SendTo(e.Data,id);
@@ -122,12 +139,14 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
         protected override void OnClose(CloseEventArgs e)
         {
             Sessions.Broadcast(String.Format("{0} got logged off...", _name));
+            Application.Current.Dispatcher.Invoke(new Action(() => { Singleton.Instance.vm.Clients.Remove(client); }));
+
         }
 
         protected override void OnOpen()
         {
             base.OnOpen();
-            Ids.Add(this.ID);
+           
             _name = getName();
             Singleton.Instance.vm.Log += $"{_name} connected \r\n";
             

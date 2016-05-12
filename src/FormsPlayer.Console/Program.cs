@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
- 
+using Newtonsoft.Json;
+using ScandySoft.Forms.Peek.Core;
 using WebSocketSharp;
 
 namespace Xamarin.Forms.Player
@@ -31,6 +32,7 @@ namespace Xamarin.Forms.Player
 			Console.ReadLine ();
 		}
 
+	    private static bool Connected;
 		static async Task Startup ()
 		{
             connection = new WebSocket(SignalrHub);
@@ -39,6 +41,18 @@ namespace Xamarin.Forms.Player
             connection.OnMessage += ConnectionOnOnMessage;
           
             connection.Connect();
+		    while (!Connected)
+		    {
+		        Thread.Sleep(100);
+		    }
+            var client = new Client { Name = "Console", Platform = "Console" };
+            var jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
+
+            var json = JsonConvert.SerializeObject(client, jsonSerializerSettings);
+            connection.Send(json);
             //            var proxy = connection.CreateHubProxy("FormsPlayer");
 
             //			proxy.On<string> ("Xaml", xaml => tracer.TraceInformation (@"Received XAML: 
@@ -65,9 +79,9 @@ namespace Xamarin.Forms.Player
         private static void ConnectionOnOnOpen(object sender, EventArgs eventArgs)
 	    {
             Console.WriteLine(eventArgs.ToString());
-          
-          
+            Connected = true;
 
-        }
+
+	    }
     }
 }
