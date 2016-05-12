@@ -21,6 +21,7 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
 
         public RelayCommand StartCommand { get; set; }
         public RelayCommand SendCommand { get; set; }
+        public RelayCommand ShowSettingsDialog { get; set; }
         private static WebSocket connection;
 
         public MainViewModel()
@@ -64,6 +65,11 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
                 {
                     wssv.Stop();
                 }
+            });
+
+            ShowSettingsDialog = new RelayCommand(() =>
+            {
+              
             });
             Singleton.Instance.vm = this;
         }
