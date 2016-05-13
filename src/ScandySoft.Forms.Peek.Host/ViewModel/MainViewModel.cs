@@ -27,8 +27,11 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
 
         public RelayCommand StartCommand { get; set; }
         public RelayCommand SendCommand { get; set; }
+ 
         public ObservableCollection<Client> Clients { get; set; }
+ 
         public RelayCommand ShowSettingsDialog { get; set; }
+ 
         private static WebSocket connection;
 
         public MainViewModel()
