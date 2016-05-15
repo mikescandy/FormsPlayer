@@ -19,70 +19,46 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private WebSocketServer wssv;
-        
+
         public string Port { get; set; }
         public string SessionId { get; set; }
         public bool Started { get; set; }
         public string Log { get; set; }
-
+        public string ButtonText { get; set; }
         public RelayCommand StartCommand { get; set; }
-        public RelayCommand SendCommand { get; set; }
- 
+        public RelayCommand ShowAboutCommand { get; set; }
         public ObservableCollection<Client> Clients { get; set; }
- 
-        public RelayCommand ShowSettingsDialog { get; set; }
- 
+
         private static WebSocket connection;
 
         public MainViewModel()
         {
-            Clients=new ObservableCollection<Client>();
+            Singleton.Instance.vm = this;
+            Clients = new ObservableCollection<Client>();
+            ButtonText = "Start";
             SessionId = "ksm88cd";
             Port = "8924";
-            StartCommand = new RelayCommand(() =>
-            {
-                if (!Started)
-                {
-                    wssv = new WebSocketServer($"ws://localhost:{Port}");
-                    wssv.AddWebSocketService<FormsPeek>($"/FormsPeek/{SessionId}");
-                    wssv.Start();
-                    Started = true;
-                }
-                else
-                {
-                    wssv.Stop();
-                }
-            });
+            StartCommand = new RelayCommand(StartRelayCommand);
+        }
 
-            SendCommand = new RelayCommand(() =>
+        private void StartRelayCommand()
+        {
+            if (!Started)
             {
-                if (Started)
-                {
-                    if (connection == null)
-                    {
-                        connection = new WebSocket($"ws://localhost:{Port}/FormsPeek/{SessionId}");
-                        connection.OnMessage += (sender, args) =>
-                        {
-                            Log += $"{args.Data}\r\n";
-                        };
-                        connection.Connect();
-                    }
-                  
-                    connection.Send("testtest");
-
-                   
-                }
-                else
-                {
-                    wssv.Stop();
-                }
-            });
-
-            ShowSettingsDialog = new RelayCommand(() =>
+                wssv = new WebSocketServer($"ws://localhost:{Port}");
+                wssv.AddWebSocketService<FormsPeek>($"/FormsPeek/{SessionId}");
+                wssv.Start();
+                Started = true;
+                ButtonText = "Stop";
+            }
+            else
             {
-              
-            });
-            Singleton.Instance.vm = this;
+                wssv.RemoveWebSocketService($"/FormsPeek/{SessionId}");
+                wssv.Stop();
+                Clients.Clear();
+                Started = false;
+                ButtonText = "Start";
+            }
         }
     }
 
@@ -133,7 +109,7 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
                 client = data as Client;
                 client.Id = _name;
                 Application.Current.Dispatcher.Invoke(new Action(() => { Singleton.Instance.vm.Clients.Add(client); }));
-              
+
             }
             //foreach (var id in Ids)
             //{
@@ -155,12 +131,12 @@ namespace ScandySoft.Forms.Peek.Host.ViewModel
         protected override void OnOpen()
         {
             base.OnOpen();
-           
+
             _name = getName();
             Singleton.Instance.vm.Log += $"{_name} connected \r\n";
-            
 
-            
+
+
         }
         private string getName()
         {
