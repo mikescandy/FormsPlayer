@@ -38,48 +38,69 @@
         </materialDesign:ColorZone>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" Grid.Row="0">
+            <Border Grid.Column="0" Grid.Row="0" Padding="20">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" 
+                <Grid >
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" 
                        x:Name="Label" Content="Port" VerticalAlignment="Top"/>
-                <TextBox Grid.Column="1" Grid.Row="0" 
+                    <TextBox Grid.Column="1" Grid.Row="0" 
                          x:Name="TextBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Port}" VerticalAlignment="Top" Width="120" IsEnabled="{Binding Started, Converter={StaticResource InvertBoolConverter}}"  />
-                <Label Grid.Column="0" Grid.Row="1" 
+                    <Label Grid.Column="0" Grid.Row="1" 
                        x:Name="Label1" Content="Session ID" HorizontalAlignment="Left"  VerticalAlignment="Top"  Height="25"/>
-                <TextBox Grid.Column="1" Grid.Row="1"
+                    <TextBox Grid.Column="1" Grid.Row="1"
                          x:Name="TextBox1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding SessionId}" VerticalAlignment="Top" Width="120"  IsEnabled="{Binding Started, Converter={StaticResource InvertBoolConverter}}"  />
-                <Label Grid.Column="0" Grid.Row="2" 
+                    <Label Grid.Column="0" Grid.Row="2" 
                        x:Name="Label3" Content="Clients" HorizontalAlignment="Left"  VerticalAlignment="Top"  Width="64" Height="26"/>
-                <ListView Grid.Column="1" Grid.Row="2"
+                    <!--<ListView Grid.Column="1" Grid.Row="2"
                           x:Name="ListView" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="120">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"  x:Name="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="29" Command="{Binding StartCommand}" Content="{Binding ButtonText}" />
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="Auto"/>
 
-            </Grid>
-            <StackPanel  Grid.Column="1" Grid.Row="0" Orientation="Vertical">
-                <Label x:Name="Label2" Content="Log" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <ScrollViewer>
-                    <TextBlock x:Name="TextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Log}" VerticalAlignment="Top" Height="269" Width="262"/>
-                </ScrollViewer>
-            </StackPanel>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>-->
+                    <ListBox x:Name="ListBox" Grid.Column="1" Grid.Row="2"
+                             ItemsSource="{Binding Clients}"
+                             MinHeight="200">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="{Binding Platform}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                 Width="32" Height="32"                                                 
+                                                 />
+                                    <Label Content="{Binding Name}" VerticalAlignment="Center"  />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"  x:Name="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="29" Command="{Binding StartCommand}" Content="{Binding ButtonText}" Margin="0,20,0,0" />
+
+                </Grid>
+            </Border>
+            <Border Padding="20" Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch">
+                <StackPanel  Orientation="Vertical" VerticalAlignment="Stretch">
+                    <Label x:Name="Label2" Content="Log" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <ScrollViewer VerticalAlignment="Stretch">
+                        <TextBlock x:Name="TextBlock" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="{Binding Log}" VerticalAlignment="Stretch"/>
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
         </Grid>
     </DockPanel>
 

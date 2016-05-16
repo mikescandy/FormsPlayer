@@ -97,6 +97,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\StringToIconConverter.cs" />
     <Compile Include="Converters\BoolColorConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

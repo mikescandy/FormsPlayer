@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsPlayer.Tests", "FormsP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsPlayer.Console", "FormsPlayer.Console\FormsPlayer.Console.csproj", "{690540E0-428D-40D4-994D-93231F58AD57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsPlayer.Vsix", "FormsPlayer.Vsix\FormsPlayer.Vsix.csproj", "{1DA1F519-4BC0-480C-8E90-DAB84CFE0FD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScandySoft.Forms.Peek.Vsix", "FormsPlayer.Vsix\ScandySoft.Forms.Peek.Vsix.csproj", "{1DA1F519-4BC0-480C-8E90-DAB84CFE0FD6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsPlayer.SelfHost", "FormsPlayer.SelfHost\FormsPlayer.SelfHost.csproj", "{D612A2CC-D9C1-4665-A44E-7529B7CB404A}"
 EndProject

@@ -9,7 +9,7 @@
 				<Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
 				<Icon guid="Player.bmpGuid" id="Player.bmpId" />
 				<Strings>
-					<ButtonText>Xamarin Forms Player</ButtonText>
+					<ButtonText>Forms Peek</ButtonText>
 				</Strings>
 			</Button>
 		</Buttons>

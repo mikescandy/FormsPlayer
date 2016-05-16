@@ -28,12 +28,17 @@ namespace Xamarin.Forms.Player
             Port = "8924";
             Url = "localhost";
 
-            Task.Run (((Func<Task>)Startup));
-			Console.ReadLine ();
+            //Task.Run (((Func<Task>)Startup("Console", "Console")));
+            //Task.Run (((Func<Task>)Startup("Android", "Android")));
+            //Task.Run (((Func<Task>)Startup("Apple", "Apple")));
+            Task.Run(() => Startup("Android", "Android"));
+            Task.Run(() => Startup("Apple", "Apple"));
+            Task.Run(() => Startup("Console", "Console"));
+            Console.ReadLine ();
 		}
 
 	    private static bool Connected;
-		static async Task Startup ()
+		static async Task Startup (string name, string platform)
 		{
             connection = new WebSocket(SignalrHub);
             connection.OnOpen += ConnectionOnOnOpen;
@@ -45,7 +50,7 @@ namespace Xamarin.Forms.Player
 		    {
 		        Thread.Sleep(100);
 		    }
-            var client = new Client { Name = "Console", Platform = "Console" };
+            var client = new Client { Name = name, Platform = platform };
             var jsonSerializerSettings = new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.All

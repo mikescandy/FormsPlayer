@@ -5,6 +5,7 @@
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:ScandySoft.Forms.Peek.Host.ViewModel" />
             <converters:InvertBoolConverter  x:Key="InvertBoolConverter" />
             <converters:BoolColorConverter  x:Key="BoolColorConverter" />
+            <converters:StringToIconConverter  x:Key="StringToIconConverter" />
             <ResourceDictionary.MergedDictionaries>
 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
