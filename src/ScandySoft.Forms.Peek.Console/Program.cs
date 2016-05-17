@@ -34,6 +34,8 @@ namespace Xamarin.Forms.Player
             Task.Run(() => Startup("Android", "Android"));
             Task.Run(() => Startup("Apple", "Apple"));
             Task.Run(() => Startup("Console", "Console"));
+            Task.Run(() => Startup("Windows", "Windows"));
+            Task.Run(() => Startup("Visualstudio", "Visualstudio"));
             Console.ReadLine ();
 		}
 

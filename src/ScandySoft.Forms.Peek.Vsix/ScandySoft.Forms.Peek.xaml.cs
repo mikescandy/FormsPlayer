@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
 
-namespace Xamarin.Forms.Player
+namespace ScandySoft.Forms.Peek
 {
 	[PartCreationPolicy(CreationPolicy.NonShared)]
 	[Export]

@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Xamarin.Forms.Player.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("ScandySoft.Forms.Peek.Droid.Resource", IsApplication=true)]
 
-namespace Xamarin.Forms.Player
+namespace ScandySoft.Forms.Peek.Droid
 {
 	
 	
@@ -26,7 +26,7 @@ namespace Xamarin.Forms.Player
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::Xamarin.Forms.Player.Resource.Attribute.actionBarSize;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::ScandySoft.Forms.Peek.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation

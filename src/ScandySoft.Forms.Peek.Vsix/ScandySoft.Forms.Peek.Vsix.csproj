@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
-  <Import Project="..\packages\Clarius.VisualStudio.1.3.6\build\Clarius.VisualStudio.props" Condition="Exists('..\packages\Clarius.VisualStudio.1.3.6\build\Clarius.VisualStudio.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -160,15 +159,15 @@
     <Compile Include="External\Diagnostics\Tracer\SystemDiagnostics\TracerManager.cs" />
     <Compile Include="External\Diagnostics\Tracer\Tracer.cs" />
     <Compile Include="External\Diagnostics\Tracer\Visibility.cs" />
-    <Compile Include="FormsPlayer.xaml.cs">
-      <DependentUpon>FormsPlayer.xaml</DependentUpon>
+    <Compile Include="NaiveBijective.cs" />
+    <Compile Include="ScandySoft.Forms.Peek.xaml.cs">
+      <DependentUpon>ScandySoft.Forms.Peek.xaml</DependentUpon>
     </Compile>
     <Compile Include="FormsPlayerWindow.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="LoadingSpinner.xaml.cs">
       <DependentUpon>LoadingSpinner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NaiveBijective.cs" />
     <Compile Include="netfx\System\AppDomainData.cs" />
     <Compile Include="netfx\System\Collections\Generic\DictionaryGetOrAdd.cs" />
     <Compile Include="netfx\System\Guard.cs" />
@@ -224,7 +223,7 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FormsPlayer.xaml">
+    <Page Include="ScandySoft.Forms.Peek.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -247,11 +246,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Clarius.VisualStudio.1.3.6\build\Clarius.VisualStudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Clarius.VisualStudio.1.3.6\build\Clarius.VisualStudio.props'))" />
-    <Error Condition="!Exists('..\packages\Clarius.VisualStudio.1.3.6\build\Clarius.VisualStudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Clarius.VisualStudio.1.3.6\build\Clarius.VisualStudio.targets'))" />
     <Error Condition="!Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.2\build\dotnet\Fody.targets'))" />
   </Target>
   <Import Project="..\Xamarin.Forms.Player.targets" />
-  <Import Project="..\packages\Clarius.VisualStudio.1.3.6\build\Clarius.VisualStudio.targets" Condition="Exists('..\packages\Clarius.VisualStudio.1.3.6\build\Clarius.VisualStudio.targets')" />
   <Import Project="..\packages\Fody.1.29.2\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.2\build\dotnet\Fody.targets')" />
 </Project>

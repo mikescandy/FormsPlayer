@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
+using ScandySoft.Forms.Peek;
 
 namespace Xamarin.Forms.Player
 {
@@ -15,7 +16,7 @@ namespace Xamarin.Forms.Player
 			BitmapResourceID = 300;
 			BitmapIndex = 1;
 
-			base.Content = ComponentModel.GlobalComponents.GetService<FormsPlayer> ();
+			base.Content = ComponentModel.GlobalComponents.GetService<ScandySoft.Forms.Peek.FormsPlayer> ();
 		}
 	}
 }

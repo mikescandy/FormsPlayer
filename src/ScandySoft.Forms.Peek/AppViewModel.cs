@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
-using Microsoft.AspNet.SignalR.Client;
 using Plugin.Settings;
 
 namespace Xamarin.Forms.Player
@@ -24,7 +23,6 @@ namespace Xamarin.Forms.Player
         string url;
         string port;
 
-        HubConnection connection;
 
         public AppViewModel()
         {
@@ -90,16 +88,9 @@ namespace Xamarin.Forms.Player
         void Connect()
         {
             IsConnected = false;
-            connection = new HubConnection(SignalrHub);
-            var proxy = connection.CreateHubProxy("FormsPlayer");
-
-            proxy.On<string>("Xaml", xaml => Xaml = xaml);
-            proxy.On<string[]>("Json", json => { Json = json[1]; JsonFileName = json[0]; });
 
             try
             {
-                connection.Start().Wait(3000);
-                proxy.Invoke("Join", SessionId);
                 IsConnected = true;
                 Status = "Successfully connected to FormsPlayer";
             }
@@ -110,15 +101,11 @@ namespace Xamarin.Forms.Player
                     message = ((AggregateException)e).InnerException.Message;
 
                 Status = "Error connecting to FormsPlayer: " + message;
-                connection.Dispose();
             }
         }
 
         void Disconnect()
         {
-            connection.Stop();
-            connection.Dispose();
-            connection = null;
             IsConnected = false;
         }
 

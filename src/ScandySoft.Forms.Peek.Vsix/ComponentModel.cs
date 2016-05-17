@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 
-namespace Xamarin.Forms.Player
+namespace ScandySoft.Forms.Peek
 {
 	public static class ComponentModel
 	{

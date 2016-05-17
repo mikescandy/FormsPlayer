@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:FormsPlayer="clr-namespace:Xamarin.Forms.Player" x:Class="Xamarin.Forms.Player.FormsPlayer"
+             xmlns:formsPlayer="clr-namespace:Xamarin.Forms.Player" x:Class="ScandySoft.Forms.Peek.FormsPlayer"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
 			 VerticalAlignment="Top"
@@ -38,6 +38,6 @@
                 <TextBlock Margin="10" TextWrapping="Wrap" Text="{Binding Log}"/>
 			</StackPanel>
 		</Grid>
-        <FormsPlayer:LoadingSpinner VerticalAlignment="Center" Visibility="{Binding IsConnecting, Converter={StaticResource boolToVis}}"/>
+        <formsPlayer:LoadingSpinner VerticalAlignment="Center" Visibility="{Binding IsConnecting, Converter={StaticResource boolToVis}}"/>
     </StackPanel>
 </UserControl>

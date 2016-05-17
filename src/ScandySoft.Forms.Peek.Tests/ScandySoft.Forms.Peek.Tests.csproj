@@ -85,7 +85,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FormsPlayer\FormsPlayer.csproj">
+    <ProjectReference Include="..\ScandySoft.Forms.Peek\ScandySoft.Forms.Peek.csproj">
       <Project>{4cb6c426-88c9-4b91-a70b-be189d71110e}</Project>
       <Name>FormsPlayer</Name>
     </ProjectReference>

@@ -5,9 +5,10 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Xamarin.Forms.Player;
 using Xamarin.Forms.Player.Diagnostics;
 
-namespace Xamarin.Forms.Player
+namespace ScandySoft.Forms.Peek
 {
 	[PackageRegistration (UseManagedResourcesOnly = true)]
 	[InstalledProductRegistration ("#110", "#112", "1.0", IconResourceID = 400)]

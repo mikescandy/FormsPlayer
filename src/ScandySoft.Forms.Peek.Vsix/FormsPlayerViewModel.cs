@@ -1,30 +1,28 @@
-﻿using EnvDTE;
-using Microsoft.VisualStudio.Settings;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Settings;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
-using Microsoft.VisualStudio.PlatformUI;
+using EnvDTE;
+using Microsoft.VisualStudio.Settings;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Settings;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PropertyChanged;
 using ScandySoft.Forms.Peek.Core;
 using WebSocketSharp;
+using Xamarin.Forms.Player;
 using Xamarin.Forms.Player.Diagnostics;
 using ErrorEventArgs = WebSocketSharp.ErrorEventArgs;
 using Thread = System.Threading.Thread;
 
-namespace Xamarin.Forms.Player
+namespace ScandySoft.Forms.Peek
 {
     [PartCreationPolicy(CreationPolicy.Shared)]
     [Export]
@@ -42,31 +40,31 @@ namespace Xamarin.Forms.Player
         public string Port { get; set; }
         public string Status { get; set; }
 
-        const string SettingsPath = "Xamarin\\FormsPlayer";
-        const string SettingsKey = "LastSessionId";
+        private const string SettingsPath = "Xamarin\\FormsPlayer";
+        private const string SettingsKey = "LastSessionId";
         public string SignalrHub => $"ws://{Url}:{Port}/FormsPeek/{SessionId}";
 
-        static readonly ITracer tracer = Tracer.Get<FormsPlayerViewModel>();
+        private static readonly ITracer Tracer = Xamarin.Forms.Player.Diagnostics.Tracer.Get<FormsPlayerViewModel>();
         public event PropertyChangedEventHandler PropertyChanged = (sender, args) => { };
 
-        private DocumentEvents events;
-        private WritableSettingsStore settings;
-        private WebSocket connection;
+        private readonly DocumentEvents _events;
+        private readonly WritableSettingsStore _settings;
+        private WebSocket _connection;
 
         [ImportingConstructor]
         public FormsPlayerViewModel([Import(typeof(SVsServiceProvider))] IServiceProvider services)
         {
             ConnectCommand = new DelegateCommand(Connect, () => !IsConnected);
             DisconnectCommand = new DelegateCommand(Disconnect, () => IsConnected);
-            events = services.GetService<DTE>().Events.DocumentEvents;
-            events.DocumentSaved += document => Publish(document.FullName);
-            events.DocumentOpened += document => Publish(document.FullName);
+            _events = services.GetService<DTE>().Events.DocumentEvents;
+            _events.DocumentSaved += document => Publish(document.FullName);
+            _events.DocumentOpened += document => Publish(document.FullName);
             var manager = new ShellSettingsManager(services);
-            settings = manager.GetWritableSettingsStore(SettingsScope.UserSettings);
-            if (!settings.CollectionExists(SettingsPath))
-                settings.CreateCollection(SettingsPath);
-            if (settings.PropertyExists(SettingsPath, SettingsKey))
-                SessionId = settings.GetString(SettingsPath, SettingsKey, "");
+            _settings = manager.GetWritableSettingsStore(SettingsScope.UserSettings);
+            if (!_settings.CollectionExists(SettingsPath))
+                _settings.CreateCollection(SettingsPath);
+            if (_settings.PropertyExists(SettingsPath, SettingsKey))
+                SessionId = _settings.GetString(SettingsPath, SettingsKey, "");
 
             if (string.IsNullOrEmpty(SessionId))
             {
@@ -81,11 +79,11 @@ namespace Xamarin.Forms.Player
             TaskScheduler.UnobservedTaskException += OnTaskException;
         }
 
-        void Publish(string fileName)
+        private void Publish(string fileName)
         {
             if (!IsConnected)
             {
-                tracer.Warn("!FormsPlayer is not connected yet.");
+                Tracer.Warn("!FormsPlayer is not connected yet.");
                 return;
             }
 
@@ -99,7 +97,7 @@ namespace Xamarin.Forms.Player
             }
         }
 
-        void PublishXaml(string fileName)
+        private void PublishXaml(string fileName)
         {
             // Make sure we can read it as XML, just to safeguard the client.
             try
@@ -117,14 +115,8 @@ namespace Xamarin.Forms.Player
                         xclass.Remove();
 
                     var xml = xdoc.ToString(SaveOptions.DisableFormatting);
-                    tracer.Info("!Publishing XAML payload");
-                    connection.Send(xml);
-                    //proxy.Invoke("Xaml", SessionId, xml)
-                    //	.ContinueWith(t =>
-                    //	   tracer.Error(t.Exception.InnerException, "Failed to publish XAML payload."),
-                    //		CancellationToken.None,
-                    //		TaskContinuationOptions.OnlyOnFaulted,
-                    //		TaskScheduler.Default);
+                    Tracer.Info("!Publishing XAML payload");
+                    _connection.Send(xml);
                 }
             }
             catch (XmlException)
@@ -133,21 +125,14 @@ namespace Xamarin.Forms.Player
             }
         }
 
-        void PublishJson(string fileName)
+        private void PublishJson(string fileName)
         {
             // Make sure we can read it as XML, just to safeguard the client.
             try
             {
                 var json = JObject.Parse(File.ReadAllText(fileName));
-                tracer.Info("!Publishing JSON payload");
-                connection.Send(json.ToString(Newtonsoft.Json.Formatting.None));
-                //proxy.Invoke("Json", SessionId, Path.GetFileName(fileName), json.ToString(Newtonsoft.Json.Formatting.None))
-                //	.ContinueWith(t =>
-                //	   tracer.Error(t.Exception.InnerException, "Failed to publish JSON payload."),
-                //		CancellationToken.None,
-                //		TaskContinuationOptions.OnlyOnFaulted,
-                //		TaskScheduler.Default);
-
+                Tracer.Info("!Publishing JSON payload");
+                _connection.Send(json.ToString(Newtonsoft.Json.Formatting.None));
             }
             catch (JsonException)
             {
@@ -155,22 +140,19 @@ namespace Xamarin.Forms.Player
             }
         }
 
-        void Connect()
+        private void Connect()
         {
             IsConnected = false;
             System.Threading.Tasks.Task.Run(() =>
             {
-                //connection = new HubConnection(SignalrHub);
-                //proxy = connection.CreateHubProxy("FormsPlayer");
-                //connection.Open(SignalrHub);
                 Log += SignalrHub;
                 Log += "\r\n";
-                connection = new WebSocket(SignalrHub);
-                connection.OnOpen += ConnectionOnOnOpen;
-                connection.OnError += ConnectionOnOnError;
-                connection.OnMessage += ConnectionOnOnMessage;
+                _connection = new WebSocket(SignalrHub);
+                _connection.OnOpen += ConnectionOnOnOpen;
+                _connection.OnError += ConnectionOnOnError;
+                _connection.OnMessage += ConnectionOnOnMessage;
 
-                connection.Connect();
+                _connection.Connect();
                 while (!Connected)
                 {
                     Thread.Sleep(100);
@@ -182,7 +164,7 @@ namespace Xamarin.Forms.Player
                 };
 
                 var json = JsonConvert.SerializeObject(client, jsonSerializerSettings);
-                connection.Send(json);
+                _connection.Send(json);
                 try
                 {
                     IsConnected = true;
@@ -195,7 +177,6 @@ namespace Xamarin.Forms.Player
                     Status = "Error connecting to FormsPlayer: " + e.Message;
                     Log += Status;
                     Log += "\r\n";
-                    //connection.Dispose();
                 }
                 finally
                 {
@@ -220,18 +201,18 @@ namespace Xamarin.Forms.Player
 
         public bool Connected { get; set; }
 
-        void Disconnect()
+        private void Disconnect()
         {
-            connection.Close();
-            connection.OnOpen -= ConnectionOnOnOpen;
-            connection.OnMessage -= ConnectionOnOnMessage;
-            connection.OnError -= ConnectionOnOnError;
+            _connection.Close();
+            _connection.OnOpen -= ConnectionOnOnOpen;
+            _connection.OnMessage -= ConnectionOnOnMessage;
+            _connection.OnError -= ConnectionOnOnError;
             IsConnected = false;
         }
 
-        void OnTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        private void OnTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            tracer.Error(e.Exception.GetBaseException().InnerException, "Background task exception.");
+            Tracer.Error(e.Exception.GetBaseException().InnerException, "Background task exception.");
             e.SetObserved();
         }
     }
