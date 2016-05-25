@@ -13,14 +13,14 @@ namespace ScandySoft.Forms.Peek
 	[PackageRegistration (UseManagedResourcesOnly = true)]
 	[InstalledProductRegistration ("#110", "#112", "1.0", IconResourceID = 400)]
 	[ProvideMenuResource ("Menus.ctmenu", 1)]
-	[ProvideToolWindow (typeof (FormsPlayerWindow))]
+	[ProvideToolWindow (typeof (FormsPeekWindow))]
 	[Guid (GuidList.guidFormsPlayerPkgString)]
-	public sealed class FormsPlayerPackage : Package
+	public sealed class FormsPeekPackage : Package
 	{
-		void ShowToolWindow (object sender, EventArgs e)
+	    private void ShowToolWindow (object sender, EventArgs e)
 		{
-			var window = FindToolWindow (typeof (FormsPlayerWindow), 0, true);
-			if ((null == window) || (null == window.Frame)) {
+			var window = FindToolWindow (typeof (FormsPeekWindow), 0, true);
+			if (window?.Frame == null) {
 				throw new NotSupportedException (Resources.CanNotCreateWindow);
 			}
 
@@ -36,15 +36,14 @@ namespace ScandySoft.Forms.Peek
 			manager.SetTracingLevel (GetType ().Namespace, SourceLevels.Information);
 			Tracer.Initialize (manager);
 
-			Tracer.Get<FormsPlayerPackage> ().Info ("!Xamarin Forms Player Initialized");
+			Tracer.Get<FormsPeekPackage> ().Info ("!Xamarin Forms Player Initialized");
 
-			OleMenuCommandService mcs = GetService (typeof (IMenuCommandService)) as OleMenuCommandService;
-			if (null != mcs) {
-				// Create the command for the tool window
-				CommandID toolwndCommandID = new CommandID (GuidList.guidFormsPlayerCmdSet, (int)PkgCmdIDList.cmdXamarinFormsPlayer);
-				MenuCommand menuToolWin = new MenuCommand (ShowToolWindow, toolwndCommandID);
-				mcs.AddCommand (menuToolWin);
-			}
+			var mcs = GetService (typeof (IMenuCommandService)) as OleMenuCommandService;
+		    if (null == mcs) return;
+		    // Create the command for the tool window
+		    var toolwndCommandId = new CommandID (GuidList.guidFormsPlayerCmdSet, (int)PkgCmdIDList.cmdXamarinFormsPlayer);
+		    var menuToolWin = new MenuCommand (ShowToolWindow, toolwndCommandId);
+		    mcs.AddCommand (menuToolWin);
 		}
 	}
 }

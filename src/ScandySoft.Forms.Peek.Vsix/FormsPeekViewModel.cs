@@ -27,7 +27,7 @@ namespace ScandySoft.Forms.Peek
     [PartCreationPolicy(CreationPolicy.Shared)]
     [Export]
     [ImplementPropertyChanged]
-    public class FormsPlayerViewModel : INotifyPropertyChanged
+    public class FormsPeekViewModel : INotifyPropertyChanged
     {
         public ICommand ConnectCommand { get; set; }
         public ICommand DisconnectCommand { get; set; }
@@ -44,7 +44,7 @@ namespace ScandySoft.Forms.Peek
         private const string SettingsKey = "LastSessionId";
         public string SignalrHub => $"ws://{Url}:{Port}/FormsPeek/{SessionId}";
 
-        private static readonly ITracer Tracer = Xamarin.Forms.Player.Diagnostics.Tracer.Get<FormsPlayerViewModel>();
+        private static readonly ITracer Tracer = Xamarin.Forms.Player.Diagnostics.Tracer.Get<FormsPeekViewModel>();
         public event PropertyChangedEventHandler PropertyChanged = (sender, args) => { };
 
         private readonly DocumentEvents _events;
@@ -52,7 +52,7 @@ namespace ScandySoft.Forms.Peek
         private WebSocket _connection;
 
         [ImportingConstructor]
-        public FormsPlayerViewModel([Import(typeof(SVsServiceProvider))] IServiceProvider services)
+        public FormsPeekViewModel([Import(typeof(SVsServiceProvider))] IServiceProvider services)
         {
             ConnectCommand = new DelegateCommand(Connect, () => !IsConnected);
             DisconnectCommand = new DelegateCommand(Disconnect, () => IsConnected);

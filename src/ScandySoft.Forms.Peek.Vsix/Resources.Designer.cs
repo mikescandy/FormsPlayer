@@ -70,7 +70,7 @@ namespace ScandySoft.Forms.Peek {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Xamarin Forms Player.
+        ///   Looks up a localized string similar to Forms Peek.
         /// </summary>
         internal static string ToolWindowTitle {
             get {

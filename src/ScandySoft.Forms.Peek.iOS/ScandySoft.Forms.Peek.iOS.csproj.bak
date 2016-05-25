@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ScandySoft.Forms.Peek.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>ScandySoftFormsPeekiOS</AssemblyName>
+    <AssemblyName>ScandySoft.Forms.Peek.iOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -89,7 +89,7 @@
   </PropertyGroup>
   <Import Project="..\Xamarin.Forms.Player.props" />
   <ItemGroup>
-    <ProjectReference Include="..\ScandySoft.Forms.Peek\ScandySoft.Forms.Peek.csproj">
+    <ProjectReference Include="..\FormsPlayer\FormsPlayer.csproj">
       <Project>{4cb6c426-88c9-4b91-a70b-be189d71110e}</Project>
       <Name>FormsPlayer</Name>
     </ProjectReference>

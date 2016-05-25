@@ -1,4 +1,4 @@
-﻿namespace Xamarin.Forms.Player
+﻿namespace ScandySoft.Forms.Peek
 {
     static class PkgCmdIDList
     {

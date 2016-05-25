@@ -12,7 +12,8 @@
     <RootNamespace>ScandySoft.Forms.Peek</RootNamespace>
     <AssemblyName>ScandySoft.Forms.Peek.Vsix</AssemblyName>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <StartAction>Program</StartAction>
     <StartProgram>$(DevEnvDir)devenv.exe</StartProgram>
@@ -37,6 +38,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CreateVsixContainer>True</CreateVsixContainer>
+    <DeployExtension>True</DeployExtension>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -150,7 +153,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="FormsPlayerViewModel.cs" />
+    <Compile Include="FormsPeekViewModel.cs" />
     <Compile Include="ComponentModel.cs" />
     <Compile Include="External\Diagnostics\Tracer\ITracer.cs" />
     <Compile Include="External\Diagnostics\Tracer\ITracerExtensions.cs" />
@@ -163,7 +166,7 @@
     <Compile Include="ScandySoft.Forms.Peek.xaml.cs">
       <DependentUpon>ScandySoft.Forms.Peek.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FormsPlayerWindow.cs" />
+    <Compile Include="FormsPeekWindow.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="LoadingSpinner.xaml.cs">
       <DependentUpon>LoadingSpinner.xaml</DependentUpon>
@@ -201,10 +204,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Key.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <VSCTCompile Include="FormsPlayer.vsct">
+    <VSCTCompile Include="FormsPeek.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
   </ItemGroup>

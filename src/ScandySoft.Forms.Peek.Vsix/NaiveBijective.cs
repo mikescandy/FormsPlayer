@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Xamarin.Forms.Player
+namespace ScandySoft.Forms.Peek
 {
 	/// <summary>
 	/// From https://gist.github.com/dgritsko/9554733
